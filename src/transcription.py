@@ -7,10 +7,12 @@ import numpy as np
 import argparse
 
 class Transcription:
-  def __init__(self, model='base'):
+  def __init__(self, model='base', label=None):
     self.SAMPLE_RATE = 16000
     self.INTERVAL = 3
     self.BUFFER_SIZE = 4096
+
+    self.label = label
 
     # whisperから自動音声認識モデルを読み込み
     print('音声認識モデルを読み込み中・・・')
@@ -68,3 +70,5 @@ class Transcription:
         result = whisper.decode(self.model, mel, self.options)
 
         print(f'recognize result: {result.text}')
+        if self.label is not None:
+          self.label['text']=result.text

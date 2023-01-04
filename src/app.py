@@ -41,7 +41,7 @@ class Application:
 
 def get_args():
   parser = argparse.ArgumentParser()
-  parser.add_argument('--model', default='base')
+  parser.add_argument('--model', default='base', choices=['tiny','base', 'small', 'medium', 'large'])
   parser.add_argument('--font_size', type=int, default=24, choices=range(5, 50))
   parser.add_argument('--side', default='bottom', choices=['bottom','top'])
   args = parser.parse_args()

@@ -1,4 +1,5 @@
 import argparse
+import json
 import tkinter as tk
 import tkinter.font as font
 from transcription import Transcription
@@ -41,9 +42,14 @@ class Application:
 
 def get_args():
   parser = argparse.ArgumentParser()
-  parser.add_argument('--model', default='base', choices=['tiny','base', 'small', 'medium', 'large'])
-  parser.add_argument('--font_size', type=int, default=24, choices=range(5, 50))
-  parser.add_argument('--side', default='bottom', choices=['bottom','top'])
+  with open('src/config.json', 'r') as json_file:
+    config_dict = json.load(json_file)
+    model = config_dict['user_config']['model']
+    font_size = config_dict['user_config']['font-size']
+    side = config_dict['user_config']['side']
+  parser.add_argument('--model', default=model, choices=['tiny','base', 'small', 'medium', 'large'])
+  parser.add_argument('--font_size', type=int, default=font_size, choices=range(5, 50))
+  parser.add_argument('--side', default=side, choices=['bottom','top'])
   args = parser.parse_args()
   return args
 

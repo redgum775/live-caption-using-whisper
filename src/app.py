@@ -91,7 +91,23 @@ class Application:
       self.label.pack(side=tk.BOTTOM)
     elif self.side == 'top':
       self.label.pack(side=tk.TOP)
-
+  
+  def set_to_default(self):
+    with open('src/config.json', 'r') as json_file:
+      config_dict = json.load(json_file)
+      config_dict['user_config'] = config_dict['default_config']
+      self.model = config_dict['user_config']['model']
+      self.font_size = config_dict['user_config']['font-size']
+      self.side = config_dict['user_config']['side']
+      self.model_var.set(self.model)
+      self.side_var.set(self.side)
+    with open('src/config.json', 'w') as json_file:
+      json.dump(config_dict, json_file, ensure_ascii=False, indent=2, separators=(',', ': '))
+    
+    if self.side == 'bottom':
+      self.label.pack(side=tk.BOTTOM)
+    elif self.side == 'top':
+      self.label.pack(side=tk.TOP)
 
 def get_args():
   parser = argparse.ArgumentParser()

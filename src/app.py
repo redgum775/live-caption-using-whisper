@@ -23,14 +23,14 @@ class Application:
     root = tk.Tk()
     root.title('Overlay-Auto-Subtitle')
     root.geometry('500x300')
-    root.config(bg='white')
+    root.config(bg='green')
     # 常に最前面に配置
     root.wm_attributes('-topmost', True)
-    # 白を透過する
-    root.wm_attributes('-transparentcolor', 'white')
+    # 緑を透過する
+    root.wm_attributes('-transparentcolor', 'green')
 
     # メニューバー
-    menubar = tk.Menu(root, bg='green', fg='blue')
+    menubar = tk.Menu(root)
     # 設定
     config_menu = tk.Menu(menubar, tearoff=False)
     # モデル選択

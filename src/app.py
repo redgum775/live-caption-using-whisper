@@ -57,6 +57,7 @@ class Application:
     config_menu.add_cascade(label='モデル', menu=config_model_menu)
     config_menu.add_cascade(label='フォントサイズ', menu=config_font_size_menu)
     config_menu.add_cascade(label='字幕の位置', menu=config_side_menu)
+    config_menu.add_command(label='デフォルトに戻す', command=self.set_to_default)
     menubar.add_cascade(label="設定", menu=config_menu)
     root.config(menu=menubar)
 

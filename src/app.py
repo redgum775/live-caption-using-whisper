@@ -7,10 +7,8 @@ from transcription import Transcription
 class Application:
   def __init__(self, args):
     self.model = args.model
-    self.model_list = ['tiny','base', 'small', 'medium', 'large']
     self.font_size = args.font_size
     self.side = args.side
-    self.side_list = ['top', 'bottom']
 
     # tkinterでWindowを構築
     root = self.builder_window()

@@ -36,7 +36,8 @@ python src/app.py
 # mediumモデルを使用する・フォントサイズを30にする
 python src/app.py --model=medium --font_size=30
 ```
-複数オプションを使用する場合、スペースで区切ってください。
+複数オプションを使用する場合、スペースで区切ってください。  
+また、オプションはウィンドウの設定メニューから変更することができます。  
 
 ## Reference  
 - [Introducing Whisper](https://openai.com/blog/whisper/)

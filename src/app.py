@@ -16,8 +16,8 @@ class Application:
     root.mainloop()
 
   def start_transcription(self):
-    ts = Transcription(model=self.model, label=self.label)
-    ts.start_transcription()
+    self.ts = Transcription(model_name=self.model, label=self.label)
+    self.ts.start_transcription()
 
   def builder_window(self):
     root = tk.Tk()
@@ -59,7 +59,7 @@ class Application:
     menubar.add_cascade(label="設定", menu=config_menu)
     root.config(menu=menubar)
 
-    # ボールド体、フォントサイズ30に設定
+    # フォントを設定
     myfont = font.Font(weight='bold', size=self.font_size)
 
     self.label = tk.Label(root, text='ここに字幕が表示されます', font=myfont)
@@ -67,7 +67,6 @@ class Application:
       self.label.pack(side=tk.BOTTOM)
     elif self.side == 'top':
       self.label.pack(side=tk.TOP)
-
     return root
   
   def config_model_menu_click(self):
@@ -77,6 +76,8 @@ class Application:
       config_dict['user_config']['model'] = self.model
     with open('src/config.json', 'w') as json_file:
       json.dump(config_dict, json_file, ensure_ascii=False, indent=2, separators=(',', ': '))
+    # モデルを切り替える
+    self.ts.switch_model(self.model)
   
   def config_side_menu_click(self):
     with open('src/config.json', 'r') as json_file:

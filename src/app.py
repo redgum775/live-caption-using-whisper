@@ -44,6 +44,12 @@ class Application:
     self.model_var.set(self.model)
     # フォントサイズ
     config_font_size_menu = tk.Menu(config_menu, tearoff=False)
+    self.font_size_var = tk.IntVar()
+    config_font_size_menu.add_radiobutton(label='16', command=self.config_font_size_menu_click, variable=self.font_size_var, value=16)
+    config_font_size_menu.add_radiobutton(label='24', command=self.config_font_size_menu_click, variable=self.font_size_var, value=24)
+    config_font_size_menu.add_radiobutton(label='32', command=self.config_font_size_menu_click, variable=self.font_size_var, value=32)
+    config_font_size_menu.add_radiobutton(label='40', command=self.config_font_size_menu_click, variable=self.font_size_var, value=40)
+    self.font_size_var.set(self.font_size)
     # 字幕の位置
     config_side_menu = tk.Menu(config_menu, tearoff=False)
     self.side_var = tk.StringVar()
@@ -78,6 +84,17 @@ class Application:
       json.dump(config_dict, json_file, ensure_ascii=False, indent=2, separators=(',', ': '))
     # モデルを切り替える
     self.ts.switch_model(self.model)
+  
+  def config_font_size_menu_click(self):
+    with open('src/config.json', 'r') as json_file:
+      config_dict = json.load(json_file)
+      self.font_size = self.font_size_var.get()
+      config_dict['user_config']['font-size'] = self.font_size
+    with open('src/config.json', 'w') as json_file:
+      json.dump(config_dict, json_file, ensure_ascii=False, indent=2, separators=(',', ': '))
+    # フォントサイズを切り替える
+    myfont = font.Font(weight='bold', size=self.font_size)
+    self.label.config(font=myfont)
   
   def config_side_menu_click(self):
     with open('src/config.json', 'r') as json_file:

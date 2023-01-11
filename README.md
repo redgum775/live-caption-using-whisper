@@ -1,4 +1,4 @@
-# Overlay-Auto-Subtitle  
+# live-caption-using-whisper  
 [OpenAIのWhisper](https://openai.com/blog/whisper/)を使用して、PCのシステム音声から字幕を自動的に生成して、Tkinterによる透過ウィンドウに字幕を表示させます。  
 
 ## Introduction  

@@ -7,6 +7,7 @@ from transcription import Transcription
 class Application:
   def __init__(self, args):
     self.model = args.model
+    self.lang = args.lang
     self.font_size = args.font_size
     self.side = args.side
 
@@ -16,7 +17,7 @@ class Application:
     root.mainloop()
 
   def start_transcription(self):
-    self.ts = Transcription(model_name=self.model, label=self.label)
+    self.ts = Transcription(model_name=self.model, lang=self.lang, label=self.label)
     self.ts.start_transcription()
 
   def builder_window(self):
@@ -42,6 +43,13 @@ class Application:
     config_model_menu.add_radiobutton(label='medium', command=self.config_model_menu_click, variable=self.model_var, value='medium')
     config_model_menu.add_radiobutton(label='large', command=self.config_model_menu_click, variable=self.model_var, value='large')
     self.model_var.set(self.model)
+    # 使用言語
+    config_lang_menu = tk.Menu(config_menu, tearoff=False)
+    self.lang_var = tk.StringVar()
+    config_lang_menu.add_radiobutton(label='日本語', command=self.config_lang_menu_click, variable=self.lang_var, value='ja')
+    config_lang_menu.add_radiobutton(label='English', command=self.config_lang_menu_click, variable=self.lang_var, value='en')
+    config_lang_menu.add_radiobutton(label='Auto', command=self.config_lang_menu_click, variable=self.lang_var, value='auto')
+    self.lang_var.set(self.lang)
     # フォントサイズ
     config_font_size_menu = tk.Menu(config_menu, tearoff=False)
     self.font_size_var = tk.IntVar()
@@ -59,6 +67,7 @@ class Application:
 
     # サブメニューを配置
     config_menu.add_cascade(label='モデル', menu=config_model_menu)
+    config_menu.add_cascade(label='言語', menu=config_lang_menu)
     config_menu.add_cascade(label='フォントサイズ', menu=config_font_size_menu)
     config_menu.add_cascade(label='字幕の位置', menu=config_side_menu)
     config_menu.add_command(label='デフォルトに戻す', command=self.set_to_default)
@@ -85,6 +94,15 @@ class Application:
     # モデルを切り替える
     self.ts.switch_model(self.model)
   
+  def config_lang_menu_click(self):
+    with open('src/config.json', 'r') as json_file:
+      config_dict = json.load(json_file)
+      self.lang = self.lang_var.get()
+      config_dict['user_config']['lang'] = self.lang
+    with open('src/config.json', 'w') as json_file:
+      json.dump(config_dict, json_file, ensure_ascii=False, indent=2, separators=(',', ': '))
+    self.ts.set_decoding_option(lang=self.lang)
+
   def config_font_size_menu_click(self):
     with open('src/config.json', 'r') as json_file:
       config_dict = json.load(json_file)
@@ -131,9 +149,11 @@ def get_args():
   with open('src/config.json', 'r') as json_file:
     config_dict = json.load(json_file)
     model = config_dict['user_config']['model']
+    lang = config_dict['user_config']['lang']
     font_size = config_dict['user_config']['font-size']
     side = config_dict['user_config']['side']
   parser.add_argument('--model', default=model, choices=['tiny','base', 'small', 'medium', 'large'])
+  parser.add_argument('--lang', default=lang, choices=['ja','en', 'auto'])
   parser.add_argument('--font_size', type=int, default=font_size, choices=range(5, 50))
   parser.add_argument('--side', default=side, choices=['bottom','top'])
   args = parser.parse_args()

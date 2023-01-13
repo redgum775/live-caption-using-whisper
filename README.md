@@ -26,6 +26,8 @@ python src/app.py
 ## Option  
 - --model (default value: `base`)  
   - 使用する自動音声認識モデルを選択します。使用できるモデル一覧は[こちら](https://github.com/openai/whisper/blob/main/model-card.md)から確認してください。  
+- --lang (default value: `auto`)  
+  - 使用する言語を選択します。['ja', 'en','auto']から選択できます。    
 - --font_size (default value: `24`)  
   - フォントサイズを選択します。`5`~`50`の範囲で選択できます。  
 - --side (default value: `bottom`)

@@ -6,7 +6,7 @@ import queue
 import numpy as np
 
 class Transcription:
-  def __init__(self, model_name='base', label=None):
+  def __init__(self, model_name='base', lang='auto', label=None):
     self.SAMPLE_RATE = 16000
     self.INTERVAL = 3
     self.BUFFER_SIZE = 4096
@@ -24,7 +24,7 @@ class Transcription:
     self.recognition_waiting_audio = queue.Queue()
     self.b = np.ones(100) / 100
 
-    self.options = whisper.DecodingOptions(language='ja', fp16=False)
+    self.set_decoding_option(lang=lang)
   
   def load_model(self):
     # whisperから自動音声認識モデルを読み込み
@@ -37,6 +37,12 @@ class Transcription:
     else:
       print('CPU推論モードで実行します')
     print('-------------------------')
+  
+  def set_decoding_option(self, lang='auto'):
+    if lang == 'auto':
+      self.options = whisper.DecodingOptions(fp16=False)
+    else:
+      self.options = whisper.DecodingOptions(language=lang, fp16=False)
   
   def switch_model(self, model_name):
     # 使用モデルを切り替える処理のスレッドを立ち上げ

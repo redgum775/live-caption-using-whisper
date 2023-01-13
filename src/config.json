@@ -1,12 +1,14 @@
 {
-  "user_config":{
-    "model":"base",
-    "font-size":24,
-    "side":"bottom"
+  "user_config": {
+    "model": "base",
+    "lang": "auto",
+    "font-size": 24,
+    "side": "bottom"
   },
-  "default_config":{
-    "model":"base",
-    "font-size":24,
-    "side":"bottom"
+  "default_config": {
+    "model": "base",
+    "lang": "auto",
+    "font-size": 24,
+    "side": "bottom"
   }
 }

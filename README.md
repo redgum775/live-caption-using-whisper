@@ -1,5 +1,10 @@
 # live-caption-using-whisper  
-[OpenAIのWhisper](https://openai.com/blog/whisper/)を使用して、PCのシステム音声から字幕を自動的に生成して、Tkinterによる透過ウィンドウに字幕を表示させます。  
+[OpenAIのWhisper](https://openai.com/blog/whisper/)を使用して、PCのシステム音声からリアルタイムに字幕（ライブキャプジョン）を表示します。 
+<div align="center">
+  <img src="assets/live_caption_app_window.png" alt="字幕アプリのウィンドウ">
+  <p>字幕アプリのウィンドウ</p>
+</div>
+緑色の部分は、ウィンドウの背景にある画面がそのまま表示されます。このウィンドウを動画の上に被せるなどしてご利用ください。
 
 ## Introduction  
 - FFmpegをインストール ([FFmpegの公式Webサイト](https://www.ffmpeg.org/download.html)をチェックしてください)  

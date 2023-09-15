@@ -84,6 +84,7 @@ class Application:
     self.label = tk.Label(root, text='ここに字幕が表示されます')
     self.set_subtitle_font()
     self.set_subtitle_position()
+    self.set_subtitle_color()
 
     return root
 
@@ -91,6 +92,10 @@ class Application:
   def set_subtitle_font(self):
     myfont = font.Font(weight='bold', size=self.font_size)
     self.label.config(font=myfont)
+
+  # 字幕の色、背景色を設定する
+  def set_subtitle_color(self, fg='#FFFFFF', bg='#000000'):
+    self.label.config(foreground=fg, background=bg)
   
   # 字幕の表示位置を設定する
   def set_subtitle_position(self):

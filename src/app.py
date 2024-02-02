@@ -3,6 +3,7 @@ import json
 import tkinter as tk
 import tkinter.font as font
 from transcription import Transcription
+from filewritter import FileWriter
 
 class Application:
   def __init__(self, args):
@@ -12,27 +13,31 @@ class Application:
     self.side = args.side
 
     # tkinterでWindowを構築
-    root = self.builder_window()
+    self.root = self.builder_window()
     self.start_transcription()
-    root.mainloop()
-
+    self.root.mainloop()
+  
   def start_transcription(self):
     self.ts = Transcription(model_name=self.model, lang=self.lang, label=self.label)
     self.ts.start_transcription()
+  
+  def start_file_writer(self):
+    self.fw = FileWriter()
+    self.ts.set_file_export(self.fw.write)
 
   def builder_window(self):
-    root = tk.Tk()
-    root.title('Live Caption using Whisper')
-    root.geometry('500x300')
-    root.config(bg='green')
+    self.root = tk.Tk()
+    self.root.title('Live Caption using Whisper')
+    self.root.geometry('500x300')
+    self.root.config(bg='green')
 
     # 常に最前面に配置
-    root.wm_attributes('-topmost', True)
+    self.root.wm_attributes('-topmost', True)
     # 緑を透過する
-    root.wm_attributes('-transparentcolor', 'green')
+    self.root.wm_attributes('-transparentcolor', 'green')
 
     # メニューバー
-    menubar = tk.Menu(root)
+    menubar = tk.Menu(self.root)
 
     # 設定メニュー
     config_menu = tk.Menu(menubar, tearoff=False)
@@ -71,6 +76,11 @@ class Application:
     config_side_menu.add_radiobutton(label='bottom', command=self.config_side_menu_click, variable=self.side_var, value='bottom')
     self.side_var.set(self.side)
 
+    # エクスポート設定
+    export_menu = tk.Menu(menubar, tearoff=False)
+    export_menu.add_command(label='エクスポート', command=self.start_file_writer)
+
+
     # サブメニューを配置、メニューバーに設定メニューを配置
     config_menu.add_cascade(label='モデル', menu=config_model_menu)
     config_menu.add_cascade(label='言語', menu=config_lang_menu)
@@ -78,15 +88,16 @@ class Application:
     config_menu.add_cascade(label='字幕の位置', menu=config_side_menu)
     config_menu.add_command(label='デフォルトに戻す', command=self.set_to_default)
     menubar.add_cascade(label="設定", menu=config_menu)
-    root.config(menu=menubar)
+    menubar.add_cascade(label="エクスポート", menu=export_menu)
+    self.root.config(menu=menubar)
 
     # 字幕ラベルを配置
-    self.label = tk.Label(root, text='ここに字幕が表示されます')
+    self.label = tk.Label(self.root, text='ここに字幕が表示されます')
     self.set_subtitle_font()
     self.set_subtitle_position()
     self.set_subtitle_color()
 
-    return root
+    return self.root
 
   # 字幕のフォントを設定する
   def set_subtitle_font(self):

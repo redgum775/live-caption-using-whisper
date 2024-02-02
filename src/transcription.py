@@ -16,6 +16,8 @@ class Transcription:
     self.model = None
     self.load_model()
 
+    self.file_write_flg = False
+
     self.th_recording = None
     self.th_recognize = None
 
@@ -58,6 +60,10 @@ class Transcription:
     self.load_model()
     self.recognize_flg = True
     self.start_recognize()
+  
+  def set_file_export(self, write):
+    self.file_write_flg = True
+    self.write = write
 
   def start_transcription(self):
     # システム音声の自動認識を開始
@@ -113,6 +119,8 @@ class Transcription:
         print(f'({self.model_name}) recognize result: {result.text}')
         if self.label is not None:
           self.label['text']=result.text
+        if self.file_write_flg:
+          self.write(result.text)
     # 停止処理
     print('-------------------------')
     print(f'音声認識モデル({self.model_name})は停止されました')
